@@ -30,17 +30,44 @@ export const Show = () => (
       <h2 class="text-xl">1. スクリプトを起動するタイミングを選択してください</h2>
       <div>
         <input type="checkbox" id="eventsSave" name="eventsSave" value='true'/>
-        <label for="eventsSave">保存したとき</label>
-      </div>
-      <div>
-        <input type="checkbox" id="eventsShow" name="eventsShow" value='true'/>
-        <label for="eventsShow">表示したとき</label>
+        <label for="eventsSave">レコード追加画面で保存に成功した後</label>
       </div>
     </div>
     <div class="mb-2">
-      <h2 class="text-xl">2. 更新するアプリIDを指定ください</h2>
-      <label for="appId" class="form-label">更新対象となるアプリID</label>
-      <input name="appId" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"/>
+      <h2 class="text-xl">2. 条件を指定してください</h2>
+      <div class='flex flex-col gap-8'>
+        <p>関連付けの条件を指定してください</p>
+        <div class="flex gap-8">
+          <div class="flex gap-4 items-center">
+            <label for="fieldNameForPrimaryKey" class="form-label">外部キー</label>
+            <input name="fieldNameForPrimaryKey" type="text"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
+                   placeholder='ルックアップ_0'
+            />
+          </div>
+          <div class="flex gap-4 items-center">
+            <label for="fieldNameForParentPrimaryKey" class="form-label">主キー</label>
+            <input name="fieldNameForParentPrimaryKey" type="text"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
+                   placeholder='association_number'
+            />
+          </div>
+        </div>
+        <p>更新するアプリの情報を指定してください</p>
+        <div class="flex gap-8">
+          <div class="flex gap-4 items-center">
+            <label for="appId" class="form-label">更新対象となるアプリID</label>
+            <input name="appId" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
+                   placeholder='100'/>
+          </div>
+          <div class="flex gap-4 items-center">
+            <label for="targetFieldName" class="form-label">更新対象となるフィールド名</label>
+            <input name="targetFieldName" type="text"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
+                   placeholder='activityHistoryCount'/>
+          </div>
+        </div>
+      </div>
     </div>
     <button class="text-white bg-blue-700 hover:bg-blue-800 rounded-lg px-5 py-2 text-center" type="submit">
       JavaScriptのコードを生成する

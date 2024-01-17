@@ -18,9 +18,9 @@ app.post('/show',
     'form',
     z.object({
       appId: z.string().min(1),
-      fieldNameForPrimaryKey: z.string().optional(),
-      fieldNameForParentPrimaryKey: z.string().optional(),
-      targetFieldName: z.string().optional(),
+      fieldNameForPrimaryKey: z.string(),
+      fieldNameForParentPrimaryKey: z.string(),
+      targetFieldName: z.string(),
       eventsSave: z.string().optional(),
       eventsShow: z.string().optional(),
     })
@@ -28,21 +28,17 @@ app.post('/show',
   async (c) => {
     const {
       appId = 100,
-      fieldNameForPrimaryKey = '子アプリの主キー',
-      fieldNameForParentPrimaryKey = '親アプリの主キー',
-      targetFieldName = 'primaryKey'
+      fieldNameForPrimaryKey = 'ルックアップ_0',
+      fieldNameForParentPrimaryKey = 'association_number',
+      targetFieldName = 'activityHistoryCount'
     } = c.req.valid('form')
 
     const code = `
 (function() {
   'use strict';
 
-  // API連携を行いたい任意のタイミングを登録
   const events = [
-    // 'app.record.index.edit.submit',
-    // 'app.record.detail.show',
-    // 'app.record.detail.show',
-    'app.record.edit.submit.success' // 保存に成功した後
+    'app.record.create.submit.success', // レコード追加画面で保存に成功した後
   ]
 
   kintone.events.on(events, async function(event) {
@@ -78,9 +74,9 @@ app.post('/show',
     const html = (
       <html>
       <body>
-      <pre>
-                    <code dangerouslySetInnerHTML={{__html: highlightedCode}}/>
-                </pre>
+        <pre>
+          <code dangerouslySetInnerHTML={{__html: highlightedCode}}/>
+        </pre>
       </body>
       </html>
     );
