@@ -27,33 +27,25 @@ export const renderer = jsxRenderer(({ children }) => {
 export const Show = () => (
   <form hx-post="/show" hx-swap="outerHTML" class="mb-4">
     <div class="mb-2">
-      <h2 class="text-xl">1. スクリプトを起動するタイミングを選択してください</h2>
-      <div>
-        <input type="checkbox" id="eventsSave" name="eventsSave" value='true'/>
-        <label for="eventsSave">レコード追加画面で保存に成功した後</label>
-      </div>
-    </div>
-    <div class="mb-2">
-      <h2 class="text-xl">2. 条件を指定してください</h2>
-      <div class='flex flex-col gap-8'>
-        <p>関連付けの条件を指定してください</p>
+      <h2 class="text-xl">1. 関連付けの条件を指定してください</h2>
+      <div class='flex flex-col gap-4'>
         <div class="flex gap-8">
           <div class="flex gap-4 items-center">
-            <label for="fieldNameForPrimaryKey" class="form-label">外部キー</label>
-            <input name="fieldNameForPrimaryKey" type="text"
+            <label for="fieldNameForForeignKey" class="form-label">外部キー(子アプリ側)</label>
+            <input name="fieldNameForForeignKey" type="text"
                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
                    placeholder='ルックアップ_0'
             />
           </div>
           <div class="flex gap-4 items-center">
-            <label for="fieldNameForParentPrimaryKey" class="form-label">主キー</label>
-            <input name="fieldNameForParentPrimaryKey" type="text"
+            <label for="fieldNameForPrimaryKey" class="form-label">主キー(親アプリ側)</label>
+            <input name="fieldNameForPrimaryKey" type="text"
                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
                    placeholder='association_number'
             />
           </div>
         </div>
-        <p>更新するアプリの情報を指定してください</p>
+        <h2 class="text-xl">2. 関連付けの条件を指定してください</h2>
         <div class="flex gap-8">
           <div class="flex gap-4 items-center">
             <label for="appId" class="form-label">更新対象となるアプリID</label>
