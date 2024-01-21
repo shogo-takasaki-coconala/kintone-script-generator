@@ -9,6 +9,7 @@
     "@hono/zod-validator": "^0.1.9",
     "highlight.js": "^11.9.0",
     "hono": "^3.8.0-rc.2",
+    "terser": "^5.27.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

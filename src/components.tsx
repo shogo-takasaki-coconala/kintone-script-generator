@@ -10,6 +10,7 @@ export const renderer = jsxRenderer(({ children }) => {
         <script src="https://unpkg.com/htmx.org@1.9.3"></script>
         <script src="https://unpkg.com/hyperscript.org@0.9.9"></script>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.min.css">
         <title>Hono + htmx</title>
       </head>
@@ -44,6 +45,14 @@ export const Show = () => (
                    placeholder='association_number'
             />
           </div>
+          {/*<button>追加</button>*/}
+          {/*<div class="flex gap-4 items-center">*/}
+          {/*  <label for="otherCondition" class="form-label">追加条件</label>*/}
+          {/*  <input name="otherCondition" type="text"*/}
+          {/*         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"*/}
+          {/*         placeholder='ルックアップ_0=1'*/}
+          {/*  />*/}
+          {/*</div>*/}
         </div>
         <h2 class="text-xl">2. 関連付けの条件を指定してください</h2>
         <div class="flex gap-8">
@@ -58,6 +67,10 @@ export const Show = () => (
                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
                    placeholder='activityHistoryCount'/>
           </div>
+        </div>
+        <div class="flex gap-2 items-center">
+          <label for="useMinify" class="form-label">minifyする</label>
+          <input type='checkbox' name='useMinify'></input>
         </div>
       </div>
     </div>

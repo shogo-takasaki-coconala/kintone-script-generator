@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
 import hljs from 'highlight.js'
 import { renderer, Show } from './components'
+import { minify } from 'terser'
 
 const app = new Hono()
 
@@ -13,25 +14,20 @@ app.get('/', async (c) => {
   return c.render(<Show />)
 })
 
-app.post('/show',
-  zValidator(
-    'form',
-    z.object({
-      appId: z.string().min(1),
-      fieldNameForForeignKey: z.string(),
-      fieldNameForPrimaryKey: z.string(),
-      targetFieldName: z.string(),
-    })
-  ),
-  async (c) => {
-    const {
-      appId ,
-      fieldNameForForeignKey ,
-      fieldNameForPrimaryKey,
-      targetFieldName
-    } = c.req.valid('form')
+// app.get('/add_field', async (c) => {
+//   return c.render(
+//     <div class="flex gap-4 items-center">
+//       <label for="otherCondition" class="form-label">追加条件</label>
+//       <input name="otherCondition" type="text"
+//              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5"
+//              placeholder='ルックアップ_0=1'
+//       />
+//     </div>
+//   )
+// })
 
-    const code = `
+function getCodeTemplate(fieldNameForForeignKey: string, queryString: string, appId: string, fieldNameForPrimaryKey: string, targetFieldName: string) {
+  return `
 (function() {
   'use strict';
 
@@ -42,7 +38,7 @@ app.post('/show',
     // 1. 更新した子レコードの外部キーと一致する子アプリ全レコード取得
     const body = {
       app: kintone.app.getId(),
-      query: '${fieldNameForForeignKey}=' + foreignKey
+      query: ${queryString}
     };
     const res = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', body)
 
@@ -148,6 +144,40 @@ app.post('/show',
   });
 })();
 `;
+}
+
+app.post('/show',
+  zValidator(
+    'form',
+    z.object({
+      appId: z.string().min(1),
+      fieldNameForForeignKey: z.string(),
+      fieldNameForPrimaryKey: z.string(),
+      targetFieldName: z.string(),
+      otherCondition: z.string().optional(),
+      useMinify: z.string().optional()
+    })
+  ),
+  async (c) => {
+    const {
+      appId,
+      fieldNameForForeignKey ,
+      fieldNameForPrimaryKey,
+      targetFieldName,
+      otherCondition,
+      useMinify,
+    } = c.req.valid('form')
+
+    let queryString = `'${fieldNameForForeignKey}=' + foreignKey`
+    if (otherCondition) {
+      queryString += ` + 'and ${otherCondition}'`
+    }
+
+    let code = getCodeTemplate(fieldNameForForeignKey, queryString, appId, fieldNameForPrimaryKey, targetFieldName);
+    if (useMinify) {
+      const result = await minify(code);
+      code = String(result.code)
+    }
 
     const highlightedCode = hljs.highlight(code, { language: 'js' }).value
     const html = (
