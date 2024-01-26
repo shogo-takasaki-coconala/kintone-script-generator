@@ -12,7 +12,7 @@ export const renderer = jsxRenderer(({ children }) => {
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.min.css">
-        <title>Hono + htmx</title>
+        <title>Kintone Script Generator</title>
       </head>
       <body>
         <div class="p-4">
