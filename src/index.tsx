@@ -66,7 +66,7 @@ function getCodeTemplate(fieldNameForForeignKey: string, queryString: string, ap
     // 1. 更新した子レコードの外部キーと一致する子アプリ全レコード取得
     const body = {
       app: kintone.app.getId(),
-      query: '${fieldNameForForeignKey}=' + foreignKey
+      query: ${queryString}
     };
     const res = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', body)
 
@@ -101,7 +101,7 @@ function getCodeTemplate(fieldNameForForeignKey: string, queryString: string, ap
     // 1. 自身のアプリから更新した弁護士登録番号と一致する活動履歴全レコード取得
     const body = {
       app: kintone.app.getId(),
-      query: '${fieldNameForForeignKey}=' + foreignKey
+      query: ${queryString}
     };
     const res = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', body)
 
@@ -183,14 +183,14 @@ app.post('/show',
     const html = (
       <html>
       <body>
-        <pre>
+        <pre style='white-space: pre-wrap'>
           <code dangerouslySetInnerHTML={{__html: highlightedCode}}/>
         </pre>
       </body>
       </html>
     );
     return c.html(
-      <div>
+      <div style='max-width: 768px'>
         {html}
       </div>
     )
